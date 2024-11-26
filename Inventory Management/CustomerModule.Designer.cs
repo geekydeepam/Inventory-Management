@@ -88,7 +88,7 @@
             this.btnClear.Location = new System.Drawing.Point(350, 173);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(95, 28);
-            this.btnClear.TabIndex = 20;
+            this.btnClear.TabIndex = 5;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = false;
             // 
@@ -103,9 +103,10 @@
             this.btnUpdate.Location = new System.Drawing.Point(249, 173);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(95, 28);
-            this.btnUpdate.TabIndex = 19;
+            this.btnUpdate.TabIndex = 14;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = false;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // btnSave
             // 
@@ -118,7 +119,7 @@
             this.btnSave.Location = new System.Drawing.Point(148, 173);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(95, 28);
-            this.btnSave.TabIndex = 17;
+            this.btnSave.TabIndex = 3;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -129,7 +130,7 @@
             this.txtCphone.Location = new System.Drawing.Point(139, 128);
             this.txtCphone.Name = "txtCphone";
             this.txtCphone.Size = new System.Drawing.Size(324, 20);
-            this.txtCphone.TabIndex = 18;
+            this.txtCphone.TabIndex = 2;
             // 
             // label6
             // 
@@ -146,7 +147,7 @@
             this.txtCname.Location = new System.Drawing.Point(139, 86);
             this.txtCname.Name = "txtCname";
             this.txtCname.Size = new System.Drawing.Size(324, 20);
-            this.txtCname.TabIndex = 12;
+            this.txtCname.TabIndex = 1;
             // 
             // label2
             // 
@@ -204,6 +205,6 @@
         private System.Windows.Forms.Label label6;
         public System.Windows.Forms.TextBox txtCname;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label lblCid;
+        public System.Windows.Forms.Label lblCid;
     }
 }

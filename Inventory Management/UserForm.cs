@@ -81,7 +81,7 @@ namespace Inventory_Management
                 if(MessageBox.Show("Are You Sure You want to Delete this User","Confirm",MessageBoxButtons.YesNo,MessageBoxIcon.Question)== DialogResult.Yes)
                 {
                     con.Open();
-                    cmd = new SqlCommand("Delete From tblUsers where phone LIKE '" + dgvUsers.Rows[e.RowIndex].Cells[4].Value.ToString(),con);
+                    cmd = new SqlCommand("Delete From tblUsers where phone LIKE '" + dgvUsers.Rows[e.RowIndex].Cells[4].Value.ToString()+"'",con);
                     cmd.ExecuteNonQuery();
                     con.Close();
 

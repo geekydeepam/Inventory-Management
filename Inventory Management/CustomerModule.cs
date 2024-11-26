@@ -64,5 +64,32 @@ namespace Inventory_Management
         {
             this.Dispose();
         }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+               
+                if (MessageBox.Show("Are You Sure You want to Update this User", "Update Record", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    cmd = new SqlCommand("Update tblCustomer set Cname=@name,Cphone=@phone where CId=@id", con);
+                    cmd.Parameters.AddWithValue("@name", txtCname.Text);
+                    cmd.Parameters.AddWithValue("@phone", txtCphone.Text);
+                    cmd.Parameters.AddWithValue("@id", lblCid.Text.Split(':')[1]);
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+
+                    MessageBox.Show("User Saved SuccessFully");
+                    this.Dispose();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

@@ -39,7 +39,7 @@ namespace Inventory_Management
                     cmd.ExecuteNonQuery();
                     con.Close();
 
-                    MessageBox.Show("User Saved SuccessFully");
+                    MessageBox.Show("Saved SuccessFully");
                     Clear();
                     this.Dispose();
                 }
@@ -66,7 +66,7 @@ namespace Inventory_Management
                     cmd.ExecuteNonQuery();
                     con.Close();
 
-                    MessageBox.Show("User Saved SuccessFully");
+                    MessageBox.Show("Saved SuccessFully");
                     this.Dispose();
                 }
 

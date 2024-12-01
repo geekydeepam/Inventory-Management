@@ -146,6 +146,7 @@
             this.btnOrders.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.btnOrders.TabIndex = 8;
             this.btnOrders.TabStop = false;
+            this.btnOrders.Click += new System.EventHandler(this.btnOrders_Click);
             // 
             // btnUsers
             // 

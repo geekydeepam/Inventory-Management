@@ -16,10 +16,10 @@ namespace Inventory_Management
 
         SqlConnection con = new SqlConnection(@"Data Source=.;Initial Catalog=IMDb;Integrated Security=True;");
         SqlCommand cmd = new SqlCommand();
-
+        int qty = 0;
         SqlDataReader rdr;
 
-        int qty = 0;
+        
         public OrderModuleForm()
         {
             InitializeComponent();
@@ -54,7 +54,7 @@ namespace Inventory_Management
         {
             int i = 0;
             dgvProduct.Rows.Clear();
-            cmd = new SqlCommand("Select * from tblProduct WHERE CONCAT(Pname,Pdescription,PCat) LIKE '%" + txtsearchboxPro.Text + "%'", con);
+            cmd = new SqlCommand("Select * from tblProduct WHERE CONCAT(Pname,Pdescription,PCat) LIKE '%" + txtsearchboxPro.Text + "%' AND Pqty>0", con);
             con.Open();
             rdr = cmd.ExecuteReader();
 
@@ -84,6 +84,7 @@ namespace Inventory_Management
 
         private void numQty_ValueChanged(object sender, EventArgs e)
         {
+            GetQty();
             if(Convert.ToInt32(numQty.Value)>qty)
             {
                 MessageBox.Show("Instock quantity is not enough !","Warning",MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -100,7 +101,7 @@ namespace Inventory_Management
             txtProName.Text = dgvProduct.Rows[e.RowIndex].Cells[2].Value.ToString();
             txtPrice.Text = dgvProduct.Rows[e.RowIndex].Cells[4].Value.ToString();
             
-            qty = Convert.ToInt32(dgvProduct.Rows[e.RowIndex].Cells[3].Value);
+            
         }
 
         private void dgvCustomer_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -113,6 +114,16 @@ namespace Inventory_Management
         {
             try
             {
+                if(txtCustId.Text=="")
+                {
+                    MessageBox.Show("Please Select a Customer", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if(txtProId.Text=="")
+                {
+                    MessageBox.Show("Please Select a Product", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 
                 if (MessageBox.Show("Are You Sure You want to Add this Order", "Saving Record", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
@@ -120,7 +131,7 @@ namespace Inventory_Management
                     cmd.Parameters.AddWithValue("@odate", Odtm.Value);
                     cmd.Parameters.AddWithValue("@cid", Convert.ToInt32( txtCustId.Text));
                     cmd.Parameters.AddWithValue("@pid",Convert.ToInt32( txtProId.Text));
-                    cmd.Parameters.AddWithValue("@qty", Convert.ToInt32(numQty.Text));
+                    cmd.Parameters.AddWithValue("@qty", Convert.ToInt32(numQty.Value));
                     cmd.Parameters.AddWithValue("@price", Convert.ToInt32(txtPrice.Text));
                     cmd.Parameters.AddWithValue("@tprice", Convert.ToInt32(txttotal.Text));
 
@@ -128,7 +139,16 @@ namespace Inventory_Management
                     cmd.ExecuteNonQuery();
                     con.Close();
 
-                    MessageBox.Show("User Saved SuccessFully");
+                    cmd = new SqlCommand("Update tblProduct set  Pqty -=@qty where PId=" + txtProId.Text, con);
+                    cmd.Parameters.AddWithValue("@qty", Convert.ToInt32(numQty.Value));
+                    cmd.Parameters.AddWithValue("@pid", Convert.ToInt32(txtProId.Text));
+
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+
+                    MessageBox.Show("Order Saved SuccessFully");
                     Clear();
                     this.Dispose();
                 }
@@ -143,9 +163,31 @@ namespace Inventory_Management
         {
             txtProId.Clear();
             txtProName.Clear();
-           numQty.Value = 0;
+            numQty.Value = 0;
             txtPrice.Clear();
             txttotal.Clear();
+        }
+
+        
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            Clear();
+            btnSave.Enabled = true;
+        }
+
+        private void GetQty()
+        {
+            cmd = new SqlCommand("Select Pqty from tblProduct where PId ='" + txtProId.Text+"'" , con);
+            con.Open();
+            rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                qty = Convert.ToInt32(rdr[0].ToString());
+            }
+            rdr.Close();
+            con.Close();
         }
     }
 }
